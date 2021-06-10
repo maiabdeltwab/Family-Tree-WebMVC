@@ -1,0 +1,105 @@
+﻿@using FamilyTree.Models
+@using FamilyTree.Controllers
+@model List<Person>
+@{
+    bool firstRow = true;
+    int max_col = ViewBag.MaxCol;
+    var row = ((HomeController)this.ViewContext.Controller).ChildsRowWidth(Model, max_col);
+    int row_width = row[0];
+    int col_count = row[1];
+
+    var width = $"{row_width - 27}px";
+
+    var id = $"c{col_count}";
+}
+<div class="child--row" style="width:@width;" id="@id">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        int col = col_count;
+        var marginTop = (firstRow) ? "" : "mt-0";
+
+        <div class="row justify-content-center @marginTop">
+            @while (col >= 2 && i < Model.Count)
+            {
+                ViewBag.childClass = "";
+
+                if (firstRow && col == col_count)
+                {
+                    ViewBag.childClass += "col-child col-first-child";
+
+                    if((col == 2 || col == 3)) { ViewBag.childClass += " col-last-child";}
+                }
+                else if (firstRow && (col == 2 || col == 3))
+                {
+                    ViewBag.childClass += "col-last-child";
+                }
+                else if (!firstRow)
+                {
+                    <div class="col-bottom-child"></div>
+                }
+                else
+                {
+                    ViewBag.childClass += "col-child";
+                }
+
+                if (Model[i].MarriageFrom != null)
+                {
+                    if (col == 2 || col == 3)
+                    {
+                        Model.Remove(Model.Where(p => p.Id == Model[i].MarriageFrom)
+                                .FirstOrDefault());
+
+                        ViewBag.childClass += " col-3 left--partner";
+                        Html.RenderPartial("_Person", Model[i].Partner, ViewData);
+
+                        ViewData["childClass"] = "col--partner right--partner";
+                        Html.RenderPartial("_Person", Model[i], ViewData);
+                    }
+                    else
+                    {
+                        ViewBag.childClass += " col-3 left--partner";
+
+                        Html.RenderPartial("_Person", Model[i], ViewData);
+
+                        Model.Remove(Model.Where(p => p.Id == Model[i].MarriageFrom)
+                                .FirstOrDefault());
+
+                        ViewData["childClass"] = "col--partner right--partner";
+                        Html.RenderPartial("_Person", Model[i].Partner, ViewData);
+                    }
+                    col -= 3;
+                }
+                else
+                {
+                    ViewBag.childClass += " col-2";
+                    Html.RenderPartial("_Person", Model[i], ViewData);
+                    col -= 2;
+                }
+
+                i++;
+
+            }
+            @{
+                firstRow = false;
+                i--;
+            }
+        </div>
+    }
+
+    <div class="sub-childs">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var singleClass = (Model[0].MarriageFrom != null) ? "" : "single";
+            var childs = Model[i].Gender ? Model[i].FatherChilds : Model[i].MotherChilds;
+            if (childs.Count > 0)
+            {
+                var id2 = $"{i}p{Model[i].Id}";
+                <div class="row justify-content-center childs @singleClass" id="@id2">
+                    <div class="horizontal-line"></div>
+                    <div class="vertical-line"></div>
+                </div>
+                Html.RenderPartial("_Childs", (List<Person>)childs);
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿@model FamilyTree.ViewModels.PersonVM
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title small text-muted" id="createModalLabel">Create new person</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "Home", FormMethod.Post))
+                {
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.FirstName, "First name", new { @class = "pl-2 small col-12" })
+                            @Html.TextBoxFor(p => p.FirstName, new { placeholder = "enter first name", @class = "col-12 form-control" })
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.ValidationMessageFor(p => p.FirstName, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.LastName, "Last name", new { @class = "pl-2 small col-12" })
+                            @Html.TextBoxFor(p => p.LastName, new { placeholder = "enter last name", @class = "col-12 form-control" })
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.ValidationMessageFor(p => p.LastName, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row align-items-center">
+                            <label class="pl-2 small col-12">Gender</label>
+                            <div class="pl-2 col-3">
+                                @Html.RadioButtonFor(p => p.Gender, "true", new { id = "male" })
+                                @Html.Label("male", "Male", new { @class = "small text-muted" })
+                            </div>
+
+                            <div class="pl-2 col-3">
+                                @Html.RadioButtonFor(model => model.Gender, "false", new { id = "female" })
+                                @Html.Label("female", "Female", new { @class = "small text-muted" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.Birthdate, "Birthdate", new { @class = "pl-2 small col-12" })
+                            @Html.TextBoxFor(p => p.Birthdate, "{0:yyyy-MM-dd}",
+                                             new
+                                             {
+                                                 type = "date",
+                                                 @class = "col-12 form-control",
+                                                 min = "1900-01-01",
+                                                 max = DateTime.Now.ToString("yyyy-MM-dd")
+                                             })
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.ValidationMessageFor(p => p.Birthdate, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.MotherId, "Mother", new { @class = "pl-2 small col-12" })
+                            @Html.DropDownListFor(p => p.MotherId, new SelectList(ViewBag.MotherList, "ID", "FullName"),
+                                                 " -- choose mother --",
+                                                 new { @class = "col-12 form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.FatherID, "Father", new { @class = "pl-2 small col-12" })
+                            @Html.DropDownListFor(p => p.FatherID, new SelectList(ViewBag.FatherList, "ID", "FullName"),
+                                                  " -- choose father --",
+                                                  new { @class = "col-12 form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mt-4">
+                        <div class="row justify-content-end">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")

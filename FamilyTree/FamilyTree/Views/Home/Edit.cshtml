@@ -1,0 +1,140 @@
+﻿@model FamilyTree.ViewModels.PersonVM
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body person--info mt-4">
+                @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-5">
+                        <div class="row align-items-center mb-3">
+                            <div class="col-3 pl-5">
+                                @if (Model.ImagePath == null)
+                                {
+                                    if (Model.Gender)
+                                    {
+                                        <img id="personImage" src="~/Content/imgs/user-vector-male.png" class="rounded-img" alt="@Model.FirstName Image">
+                                    }
+                                    else
+                                    {
+                                        <img id="personImage" src="~/Content/imgs/user-vector-female.png" class="rounded-img" alt="@Model.FirstName Image">
+                                    }
+                                }
+                                else
+                                {
+                                    <img id="personImage" src="~/Content/upload/@Model.ImagePath" class="rounded-img" alt="@Model.FirstName Image">
+                                }
+                            </div>
+                            <div class="col-9 p-1">
+                                <div class="align-self-center d-inline-block pl-4">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(p => p.Image, new { @class = "form-control-file d-none", type = "file", value = "" })
+                                        <label for="Image">
+                                            <span class="btn btn-primary text-white">
+                                                Upload photo
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="align-self-center d-inline-block pl-3">
+                                    @Html.HiddenFor(p => p.RemoveImage)
+                                    <button type="button" onclick="removeImage()" class="btn btn-light btn-outline-secondary btn-rounded">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.FirstName, "First name", new { @class = "pl-2 small col-12 col-md-2" })
+                            @Html.TextBoxFor(p => p.FirstName, new { placeholder = "enter first name", @class = "col-12 col-md-10 form-control" })
+                        </div>
+                        <div class="row">
+                            <div class="d-none d-md-block col-2"></div>
+                            @Html.ValidationMessageFor(p => p.FirstName, "", new { @class = "col-12 col-md-10 text-danger small" })
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.LastName, "Last name", new { @class = "pl-2 small col-12 col-md-2" })
+                            @Html.TextBoxFor(p => p.LastName, new { placeholder = "enter last name", @class = "col-12 col-md-10 form-control" })
+                        </div>
+                        <div class="row">
+                            <div class="d-none d-md-block col-2"></div>
+                            @Html.ValidationMessageFor(p => p.LastName, "", new { @class = "col-12 col-md-10 text-danger small" })
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row align-items-center">
+                            <label class="pl-2 small col-12 col-md-2">Gender</label>
+                            <div class="pl-2 col-3">
+                                @Html.RadioButtonFor(p => p.Gender, "true", new { id = "male" })
+                                @Html.Label("male", "Male", new { @class = "small text-muted" })
+                            </div>
+                            <div class="pl-2 col-3">
+                                @Html.RadioButtonFor(model => model.Gender, "false", new { id = "female" })
+                                @Html.Label("female", "Female", new { @class = "small text-muted" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.Birthdate, "Birthdate", new { @class = "pl-2 small col-12 col-md-2" })
+                            @Html.TextBoxFor(p => p.Birthdate, "{0:yyyy-MM-dd}",
+                                             new
+                                             {
+                                                 type = "date",
+                                                 @class = "col-12 col-md-10 form-control",
+                                                 min = "1900-01-01",
+                                                 max = DateTime.Now.ToString("yyyy-MM-dd")
+                                             })
+                        </div>
+                        <div class="row">
+                            <div class="d-none d-md-block col-2"></div>
+                            @Html.ValidationMessageFor(p => p.Birthdate, "", new { @class = "col-12 col-md-10 text-danger small" })
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.MotherId, "Mother", new { @class = "pl-2 small col-12 col-md-2" })
+                            @Html.DropDownListFor(p => p.MotherId, new SelectList(ViewBag.MotherList, "ID", "FullName"),
+                                                 " -- choose mother --",
+                                                 new { @class = "col-12 col-md-10 form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.FatherID, "Father", new { @class = "pl-2 small col-12 col-md-2" })
+                            @Html.DropDownListFor(p => p.FatherID, new SelectList(ViewBag.FatherList, "ID", "FullName"),
+                                                  " -- choose father --",
+                                                  new { @class = "col-12 col-md-10 form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mb-2">
+                        <div class="row">
+                            @Html.LabelFor(p => p.MarriageFrom, "Partner", new { @class = "pl-2 small col-12 col-md-2" })
+                            @Html.DropDownListFor(p => p.MarriageFrom, new SelectList(ViewBag.PartnerList, "ID", "FullName"),
+                                                  " -- choose partner --",
+                                                  new { @class = "col-12 col-md-10 form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group pl-lg-4 pr-lg-4 mt-4">
+                        <div class="row justify-content-end">
+                            <button type="submit" class="btn btn-primary pl-5 pr-5">Save</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#Image").change(function () {
+            readURL(this);
+        });
+    </script>

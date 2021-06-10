@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Tree</title>
+    @Styles.Render("~/bundles/twitter-bootstrap")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <span class="navbar-brand text-primary pl-5 mb-0 h1 ">
+            <a href="@Url.Action("Index", "Home")">
+                <i class='fas fa-tree'></i> Family Tree
+            </a>
+        </span>
+    </nav>
+    <div class="container body-content mt-5">
+        @RenderBody()
+        <hr style="margin-top:250px" />
+        <footer>
+            <p class="small text-muted">&copy; @DateTime.Now.Year - Family Tree Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/popper")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/script")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

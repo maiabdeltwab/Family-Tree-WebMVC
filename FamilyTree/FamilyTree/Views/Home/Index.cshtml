@@ -1,0 +1,67 @@
+﻿@using FamilyTree.Models
+@model List<Person>
+
+<div class="home--page">
+    <div class="option--links h4 row justify-content-between">
+        <div class="col-1"></div>
+        <p class="col-9 text-primary">Family tree</p>
+        <div class="col-2">
+            <a onclick="create()" data-toggle="tooltip" data-placement="top" title="Create new person">
+                <i class="fas fa-user-plus"></i>
+            </a>
+        </div>
+    </div>
+    <div class="family--tree">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var singleClass = "";
+            var marginTop = (i == 0) ? "" : "mt-6";
+
+            <div class="row row-parent justify-content-center @marginTop">
+                @if (Model[i].MarriageFrom != null)
+                {
+                    ViewData["childClass"] = "col-3 left--partner";
+                    Html.RenderPartial("_Person", Model[i], ViewData);
+
+                    Model.Remove(Model.Where(p => p.Id == Model[i].MarriageFrom)
+                            .FirstOrDefault());
+
+                    ViewData["childClass"] = "col--partner right--partner";
+                    Html.RenderPartial("_Person", Model[i].Partner);
+                }
+                else
+                {
+                    singleClass = "single";
+                    ViewData["childClass"] = "col-2";
+                    Html.RenderPartial("_Person", Model[i], ViewData);
+                }
+            </div>
+
+            var childs = Model[i].Gender ? Model[i].FatherChilds : Model[i].MotherChilds;
+
+            if (childs.Count > 0)
+            {
+                <div class="row justify-content-center @singleClass">
+                    <div class="horizontal-line"></div>
+                    <div class="vertical-line"></div>
+                </div>
+                <div class="row justify-content-center">
+                    @{
+                        ViewBag.MaxCol = 13;
+                        Html.RenderPartial("_Childs", (List<Person>)childs, ViewData);
+                    }
+                </div>
+            }
+
+        }
+    </div>
+    <div id="create-modal">
+    </div>
+    
+</div>
+
+<div> @{ Html.RenderPartial("Delete"); }</div>
+
+@section scripts{
+
+}

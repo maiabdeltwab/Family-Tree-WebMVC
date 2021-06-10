@@ -1,0 +1,54 @@
+﻿@model FamilyTree.Models.Person
+@{
+    var childClass = (string)ViewData["childClass"];
+}
+
+<div class="@childClass" id="@Model.Id">
+    <div class="card">
+        <div class="">
+            <div class="row justify-content-center">
+                <div class="card--img">
+                    @if (Model.ImagePath == null)
+                    {
+                        if (Model.Gender)
+                        {
+                            <img src="~/Content/imgs/user-vector-male.png" alt="@Model.FirstName Image">
+                        }
+                        else
+                        {
+                            <img src="~/Content/imgs/user-vector-female.png" alt="@Model.FirstName Image">
+                        }
+                    }
+                    else
+                    {
+                        <img src="~/Content/upload/@Model.ImagePath" alt="@Model.FirstName Image">
+                    }
+                </div>
+            </div>
+            @if (Model.Gender)
+            {
+                <i class="gender male fas fa-mars pr-1"></i>
+            }
+            else
+            {
+                <i class="gender female fas fa-venus pr-1"></i>
+            }
+            <div class="pl-2 pr-2">
+                <div class="name text-center">
+                    @if (Model.Gender)
+                    {
+                        <a class="male" onclick="details(@Model.Id)">
+                            @Model.FirstName @Model.LastName
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="female" onclick="details(@Model.Id)">
+                            @Model.FirstName @Model.LastName
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

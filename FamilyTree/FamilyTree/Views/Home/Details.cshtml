@@ -1,0 +1,74 @@
+﻿@model FamilyTree.Models.Person
+@{
+    var c = (Model.Gender) ? "primary" : "info";
+}
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="margin-top: 7rem;">
+            <div class="modal-body person--info pl-5 pr-5 pb-4">
+                <div class="row align-items-center mb-3">
+                    <div class="col-3 p-0">
+                        @if (Model.ImagePath == null)
+                        {
+                            if (Model.Gender)
+                            {
+                                <img src="~/Content/imgs/user-vector-male.png" class="rounded-img" alt="@Model.FirstName Image">
+                            }
+                            else
+                            {
+                                <img src="~/Content/imgs/user-vector-female.png" class="rounded-img" alt="@Model.FirstName Image">
+                            }
+                        }
+                        else
+                        {
+                            <img src="~/Content/upload/@Model.ImagePath" class="rounded-img" alt="@Model.FirstName Image">
+                        }
+                    </div>
+                    <div class="col-9 p-1">
+                        <div class="text-@c">
+                            @Model.FirstName @Model.LastName
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center pl-4">
+                    <div class="text-muted small">
+                        <i class="fas fa-venus-mars text-@c pr-1"></i>
+                        @if (Model.Gender)
+                        {
+                            <span class="pl-2">Male</span>
+                        }
+                        else
+                        {
+                            <span class="pl-2">Female</span>
+                        }
+                    </div>
+                </div>
+                <div class="row align-items-center pl-4">
+                    @{var age = DateTime.Now.Year - Model.Birthdate.Value.Year;}
+                    <div class="birthdate small text-muted d-block">
+                        <i class="fas fa-birthday-cake text-@c pr-1"></i>
+                        <span class="pl-2">
+                            @Model.Birthdate.Value.ToString("dd-MM-yyyy")
+                            (@age years)
+                        </span>
+                    </div>
+                </div>
+                <div class="options row justify-content-end mt-3">
+                    <div class="col-2 pl-5">
+                        <a onclick="edit(@Model.Id)" data-toggle="tooltip" data-placement="left" title="Update person">
+                            <i class="fas fa-pen text-@c"></i>
+                        </a>
+                    </div>
+                    <div class="col-2 pl-4">
+                        <a onclick="remove(@Model.Id)" data-toggle="tooltip" data-placement="right" title="Delete person">
+                            <i class="fas fa-trash-alt text-muted"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('[data-toggle="tooltip"]').tooltip()
+</script>

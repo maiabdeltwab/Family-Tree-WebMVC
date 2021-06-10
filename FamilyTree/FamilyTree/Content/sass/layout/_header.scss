@@ -1,0 +1,9 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+.navbar-brand {
+    a:hover {
+        text-decoration: none;
+        color: $success;
+    }
+}

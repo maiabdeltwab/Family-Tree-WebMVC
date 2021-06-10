@@ -1,0 +1,245 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the home page.
+// -----------------------------------------------------------------------------
+.home--page {
+    .option--links {
+        & {
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px 10px;
+        }
+        a {
+            color: $primary;
+            cursor: pointer;
+        }
+        a:hover {
+            color: $success;
+            text-decoration: none;
+        }
+    }
+    .family--tree {
+        .mt-6 {
+            margin-top: 140px !important;
+        }
+        .child--row {
+            margin-top: 66px;
+            border-radius: 56px;
+            border-top: 2px solid #d0d0d0;
+        }
+        .col-3 {
+            padding: 0;
+            max-width: 292px;
+            min-width: 292px;
+        }
+        .col-2 {
+            padding: 0;
+            max-width: 160px;
+            min-width: 160px;
+        }
+        .col--partner {
+            margin-left: -142px;
+        }
+        .col-first-child {
+            border-top-left-radius: 71px;
+            background-color: #f7f7f7;
+            &.col-2 {
+                .card {
+                    left: 9px;
+                }
+            }
+        }
+        .col-last-child {
+            border-right: 2px solid #d0d0d0;
+            border-top-right-radius: 71px;
+            border-bottom-right-radius: 40px;
+            background-color: #f7f7f7;
+            &.col-2 {
+                .card {
+                    left: 9px;
+                }
+            }
+        }
+        .col-child {
+            border-left: 2px solid #d0d0d0;
+            border-bottom-left-radius: 40px;
+        }
+        .col-bottom-child {
+            position: relative;
+            margin-top: -157px;
+            right: -75px;
+            height: 208px;
+            width: 0px;
+            border-left: 3px solid #d0d0d0;
+            z-index: -1;
+        }
+        .row-parent {
+            margin-top: 50px;
+            .card {
+                top: 0px;
+            }
+        }
+        .left--partner {
+            .card {
+                border-bottom-left-radius: 40px;
+                margin-left: 10px;
+            }
+        }
+        .right--partner {
+            .card {
+                border-bottom-right-radius: 40px;
+            }
+        }
+        .vertical-line {
+            position: absolute;
+            margin-top: 9px;
+            height: 58px;
+            width: 0px;
+            border-left: 3px solid #d0d0d0;
+            z-index: -1;
+        }
+        .horizontal-line {
+            position: absolute;
+            height: 21px;
+            width: 90px;
+            margin-top: -12px;
+            border-bottom: 3px solid #d0d0d0;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            z-index: -1;
+        }
+        .single {
+            .horizontal-line {
+                margin-left: -15px;
+            }
+            .vertical-line {
+                margin-left: -15px;
+            }
+        }
+        .card {
+            position: relative;
+            width: 140px;
+            height: 100px;
+            border: none;
+            box-shadow: 2px 1px 4px 0px rgba(0, 0, 0, 0.062);
+            transform: scale(0.95);
+            transition: box-shadow 0.5s, transform 0.5s;
+            border-radius: 20px;
+            margin-top: 55px;
+            top: 33px;
+            &:hover {
+                transform: scale(1);
+                box-shadow: 5px 8px 11px 0px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+            a {
+                &:hover {
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+                &.male:hover {
+                    color: $primary;
+                }
+                &.female:hover {
+                    color: $secondary;
+                }
+            }
+            .small {
+                font-size: 73%;
+            }
+            .male {
+                color: $success;
+            }
+            .female {
+                color: $info;
+            }
+            .name {
+                margin-top: 8px;
+                a {
+                    display: block;
+                    padding-top: 5px;
+                    font-size: 16px;
+                    line-height: 19px;
+                }
+            }
+        }
+        .gender {
+            font-size: 24px;
+            position: absolute;
+            margin-top: -48px;
+            &.female {
+                color: #df619180;
+                transform: rotate(22deg);
+                margin-left: 124px;
+            }
+            &.male {
+                color: #94e0c7;
+                transform: rotate(114deg);
+                margin-left: -1px;
+            }
+        }
+        .card--img {
+            width: 85px;
+            height: 85px;
+            margin-top: -43px;
+            border-radius: 50%;
+            box-shadow: 4px 3px 5px 0px #00000061;
+            ;
+            img {
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+            }
+        }
+    }
+    select,
+    input,
+    button,
+    .btn {
+        border-radius: 20px;
+    }
+    form {
+        select,
+        input,
+        button {
+            &:focus {
+                outline: 0 none;
+                box-shadow: none;
+                border: 2px solid $success;
+            }
+        }
+    }
+    .person--info {
+        .rounded-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .options {
+            a {
+                display: inline-block;
+                width: 40px;
+                height: 40px;
+                background: $light;
+                border-radius: 50%;
+                text-align: center;
+                padding-top: 5px;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    #updateModal {
+        .modal-dialog {
+            max-width: 800px;
+        }
+        .modal-content {
+            width: 800px;
+        }
+        .close-modal {
+            position: absolute;
+            top: 8px;
+            right: 11px;
+        }
+    }
+}
