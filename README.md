@@ -12,7 +12,7 @@ The application manages family members data (add, delete,update) and shows them 
 
 ## Instructions
 * You can run the application on Visual Studio IDE.
-* Video below shows a demo for the project:
+* The video below shows a demo of the project:
 
 
 
